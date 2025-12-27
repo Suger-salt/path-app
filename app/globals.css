@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  /* ベースの色設定 */
+  --background: #09090b; /* zinc-950 */
+  --foreground: #e4e4e7; /* zinc-200 */
+  
+  /* アプリのテーマカラー（ここを変えれば全箇所の緑が変わります） */
+  --primary: var(--color-emerald-700);
+  --primary-hover: var(--color-emerald-600);
+  --primary-glow: var(--color-emerald-900); /* 影や選択色用 */
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 1. テキスト選択色（Selection）の一括設定 */
+/* これを書けば、page.tsx の 'selection:...' は全て不要になります */
+::selection {
+  background-color: var(--primary-glow); /* 緑色の背景 */
+  color: var(--color-emerald-50);       /* 薄い緑の文字 */
+}
+
+/* 2. 共通クラスの作成（@apply を使用） */
+/* ボタンや入力欄の長いクラスをここにまとめます */
+
+/* メインの録音ボタン */
+.btn-mic {
+  @apply h-14 w-14 shrink-0 rounded-full text-white flex items-center justify-center 
+         shadow-lg transition-transform active:scale-95 border;
+  
+  /* 色の指定（CSS変数を使用） */
+  background-color: var(--primary);
+  border-color: rgba(16, 185, 129, 0.2); /* emerald-500/20 */
+  box-shadow: 0 10px 15px -3px rgba(6, 78, 59, 0.4); /* emerald-900/40 */
+}
+
+.btn-mic:hover {
+  background-color: var(--primary-hover);
+}
+
+/* 入力フィールド */
+.input-chat {
+  @apply w-full h-14 rounded-full pl-6 pr-12 text-sm text-zinc-100 
+         focus:outline-none focus:ring-1 transition-all placeholder:text-zinc-600 backdrop-blur-md;
+         
+  background-color: rgba(24, 24, 27, 0.8); /* zinc-900/80 */
+  border: 1px solid #27272a; /* zinc-800 */
+}
+
+.input-chat:focus {
+  border-color: rgba(16, 185, 129, 0.5); /* emerald-500/50 */
+  --tw-ring-color: rgba(16, 185, 129, 0.2); /* emerald-500/20 */
 }
